@@ -1,0 +1,172 @@
+Script started on 2026-11-19 00:10:47+00:00 [COMMAND="HOLD_SECS=0 /tmp/demo-run.sh" <not executed on terminal>]
+
+NativeLink  compression-store has() size
+Issue #3194  DATA_LOSS on action-cache fills through a compression store
+
+========  BEFORE: untouched upstream/main  ========
+12e8ae20 Look up the latest release in quickstart snippets (#3218)
+
+$ cargo +1.97.1 test -p nativelink-store --test compression_store_test \
+    has_reports_the_stored_uncompressed_size_when_the_digest_size_differs -- --nocapture --test-threads=1
+
+
+running 1 test
+test has_reports_the_stored_uncompressed_size_when_the_digest_size_differs ... 
+thread 'has_reports_the_stored_uncompressed_size_when_the_digest_size_differs' (18493) panicked at nativelink-store/tests/compression_store_test.rs:1065:5:
+assertion failed: `(left == right)`: has() must report the stored payload length, not the Action size in the digest
+
+[1mDiff[0m [31m< left[0m / [32mright >[0m :
+ Some(
+[31m<    [0m[1;48;5;52;31m167[0m[31m,[0m
+[32m>    [0m[1;48;5;22;32m334[0m[32m,[0m
+ )
+
+
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+FAILED
+
+failures:
+
+failures:
+    has_reports_the_stored_uncompressed_size_when_the_digest_size_differs
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 20 filtered out; finished in 0.00s
+
+exit=101
+$ cargo +1.97.1 test -p nativelink-store --test compression_store_test \
+    compressed_slow_tier_refills_when_digest_size_is_the_action_size -- --nocapture --test-threads=1
+
+
+running 1 test
+test compressed_slow_tier_refills_when_digest_size_is_the_action_size ... 2026-11-19T00:10:47.244770Z TRACE compressed_slow_tier_refills_when_digest_size_is_the_action_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:10:47.245373Z TRACE compressed_slow_tier_refills_when_digest_size_is_the_action_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:10:47.245544Z TRACE compressed_slow_tier_refills_when_digest_size_is_the_action_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:10:47.245653Z TRACE compressed_slow_tier_refills_when_digest_size_is_the_action_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:10:47.245823Z TRACE compressed_slow_tier_refills_when_digest_size_is_the_action_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:10:47.246029Z TRACE compressed_slow_tier_refills_when_digest_size_is_the_action_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:10:47.246101Z TRACE compressed_slow_tier_refills_when_digest_size_is_the_action_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:10:47.246203Z TRACE compressed_slow_tier_refills_when_digest_size_is_the_action_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:10:47.246325Z TRACE compressed_slow_tier_refills_when_digest_size_is_the_action_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:10:47.246376Z TRACE compressed_slow_tier_refills_when_digest_size_is_the_action_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:10:47.246425Z TRACE compressed_slow_tier_refills_when_digest_size_is_the_action_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:10:47.246477Z TRACE compressed_slow_tier_refills_when_digest_size_is_the_action_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:10:47.246533Z TRACE compressed_slow_tier_refills_when_digest_size_is_the_action_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:10:47.246581Z TRACE compressed_slow_tier_refills_when_digest_size_is_the_action_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:10:47.246630Z TRACE compressed_slow_tier_refills_when_digest_size_is_the_action_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:10:47.246677Z TRACE compressed_slow_tier_refills_when_digest_size_is_the_action_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:10:47.247335Z TRACE compressed_slow_tier_refills_when_digest_size_is_the_action_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:10:47.247523Z DEBUG compressed_slow_tier_refills_when_digest_size_is_the_action_size: nativelink_store::filesystem_store: Spawned a filesystem_delete_file current_active_drop_spawns=1 file_path="/tmp/.tmpCl0LmB/temp/d2/0123456789abcdef000000000000000000010000000000000000000000000000-167-1"
+2026-11-19T00:10:47.247599Z TRACE compressed_slow_tier_refills_when_digest_size_is_the_action_size:filesystem_delete_file: nativelink_util::fs: getting FS permit available_permits=24576
+Error: Error { code: DataLoss, messages: ["Expected 167 upload bytes, received 334", "Slow store ended before the cache fill was complete", "Failed to get_part in get_part_unchunked", "---", "Sender dropped before sending EOF", "In buf_channel::peek", "Failed to check if next chunk is EOF", "Failed to read stream to completion in get_part_unchunked"] }
+FAILED
+
+failures:
+
+failures:
+    compressed_slow_tier_refills_when_digest_size_is_the_action_size
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 20 filtered out; finished in 0.00s
+
+exit=101
+========  AFTER: feat/compression-ac-has-size  ========
+1fa599e0 fix(store): report compression-store payload size from the frame footer
+$ cargo +1.97.1 test -p nativelink-store --test compression_store_test \
+    has_reports_the_stored_uncompressed_size_when_the_digest_size_differs -- --nocapture --test-threads=1
+
+
+running 1 test
+test has_reports_the_stored_uncompressed_size_when_the_digest_size_differs ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 20 filtered out; finished in 0.00s
+
+exit=0
+$ cargo +1.97.1 test -p nativelink-store --test compression_store_test \
+    compressed_slow_tier_refills_when_digest_size_is_the_action_size -- --nocapture --test-threads=1
+
+
+running 1 test
+test compressed_slow_tier_refills_when_digest_size_is_the_action_size ... 2026-11-19T00:10:47.257322Z TRACE compressed_slow_tier_refills_when_digest_size_is_the_action_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:10:47.257754Z TRACE compressed_slow_tier_refills_when_digest_size_is_the_action_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:10:47.257947Z TRACE compressed_slow_tier_refills_when_digest_size_is_the_action_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:10:47.258060Z TRACE compressed_slow_tier_refills_when_digest_size_is_the_action_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:10:47.258244Z TRACE compressed_slow_tier_refills_when_digest_size_is_the_action_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:10:47.258432Z TRACE compressed_slow_tier_refills_when_digest_size_is_the_action_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:10:47.258498Z TRACE compressed_slow_tier_refills_when_digest_size_is_the_action_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:10:47.258553Z TRACE compressed_slow_tier_refills_when_digest_size_is_the_action_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:10:47.258645Z TRACE compressed_slow_tier_refills_when_digest_size_is_the_action_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:10:47.258693Z TRACE compressed_slow_tier_refills_when_digest_size_is_the_action_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:10:47.258739Z TRACE compressed_slow_tier_refills_when_digest_size_is_the_action_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:10:47.258790Z TRACE compressed_slow_tier_refills_when_digest_size_is_the_action_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:10:47.258844Z TRACE compressed_slow_tier_refills_when_digest_size_is_the_action_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:10:47.258890Z TRACE compressed_slow_tier_refills_when_digest_size_is_the_action_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:10:47.258934Z TRACE compressed_slow_tier_refills_when_digest_size_is_the_action_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:10:47.258985Z TRACE compressed_slow_tier_refills_when_digest_size_is_the_action_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:10:47.259543Z TRACE compressed_slow_tier_refills_when_digest_size_is_the_action_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:10:47.260077Z TRACE compressed_slow_tier_refills_when_digest_size_is_the_action_size: nativelink_store::filesystem_store: Dropping file to update_file temp_file=FileSlot { _permit: SemaphorePermit { sem: Semaphore { ll_sem: Semaphore { permits: 24575 } }, permits: 1 }, inner: tokio::fs::File { std: File { fd: 9, path: "/tmp/.tmpRPfkza/temp/d2/0123456789abcdef000000000000000000010000000000000000000000000000-167-1", read: true, write: true } } }
+2026-11-19T00:10:47.260382Z TRACE compressed_slow_tier_refills_when_digest_size_is_the_action_size:filesystem_store_emplace_file: nativelink_store::filesystem_store: No existing entry, so not duplicate temp_file="/tmp/.tmpRPfkza/temp/d2/0123456789abcdef000000000000000000010000000000000000000000000000-167-1"
+2026-11-19T00:10:47.260418Z TRACE compressed_slow_tier_refills_when_digest_size_is_the_action_size:filesystem_store_emplace_file: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:10:47.260543Z TRACE compressed_slow_tier_refills_when_digest_size_is_the_action_size:filesystem_store_emplace_file: nativelink_store::filesystem_store: Finished emplace file key=Digest(DigestInfo("0123456789abcdef000000000000000000010000000000000123456789abcdef-167"))
+2026-11-19T00:10:47.260723Z TRACE compressed_slow_tier_refills_when_digest_size_is_the_action_size: nativelink_util::fs: getting FS permit available_permits=24576
+ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 20 filtered out; finished in 0.00s
+
+exit=0
+$ cargo +1.97.1 test -p nativelink-store --test compression_store_test \
+    compressed_slow_tier_refills_filesystem_with_the_uncompressed_size -- --nocapture --test-threads=1
+
+
+running 1 test
+test compressed_slow_tier_refills_filesystem_with_the_uncompressed_size ... 2026-11-19T00:10:47.270436Z TRACE compressed_slow_tier_refills_filesystem_with_the_uncompressed_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:10:47.270889Z TRACE compressed_slow_tier_refills_filesystem_with_the_uncompressed_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:10:47.271107Z TRACE compressed_slow_tier_refills_filesystem_with_the_uncompressed_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:10:47.271336Z TRACE compressed_slow_tier_refills_filesystem_with_the_uncompressed_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:10:47.271604Z TRACE compressed_slow_tier_refills_filesystem_with_the_uncompressed_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:10:47.271838Z TRACE compressed_slow_tier_refills_filesystem_with_the_uncompressed_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:10:47.271910Z TRACE compressed_slow_tier_refills_filesystem_with_the_uncompressed_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:10:47.271981Z TRACE compressed_slow_tier_refills_filesystem_with_the_uncompressed_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:10:47.272071Z TRACE compressed_slow_tier_refills_filesystem_with_the_uncompressed_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:10:47.272117Z TRACE compressed_slow_tier_refills_filesystem_with_the_uncompressed_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:10:47.272163Z TRACE compressed_slow_tier_refills_filesystem_with_the_uncompressed_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:10:47.272210Z TRACE compressed_slow_tier_refills_filesystem_with_the_uncompressed_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:10:47.272260Z TRACE compressed_slow_tier_refills_filesystem_with_the_uncompressed_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:10:47.272305Z TRACE compressed_slow_tier_refills_filesystem_with_the_uncompressed_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:10:47.272348Z TRACE compressed_slow_tier_refills_filesystem_with_the_uncompressed_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:10:47.272387Z TRACE compressed_slow_tier_refills_filesystem_with_the_uncompressed_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:10:47.272967Z TRACE compressed_slow_tier_refills_filesystem_with_the_uncompressed_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:10:47.273475Z TRACE compressed_slow_tier_refills_filesystem_with_the_uncompressed_size: nativelink_store::filesystem_store: Dropping file to update_file temp_file=FileSlot { _permit: SemaphorePermit { sem: Semaphore { ll_sem: Semaphore { permits: 24575 } }, permits: 1 }, inner: tokio::fs::File { std: File { fd: 9, path: "/tmp/.tmpll6PYY/temp/d2/0123456789abcdef000000000000000000010000000000000000000000000000-4096-1", read: true, write: true } } }
+2026-11-19T00:10:47.273779Z TRACE compressed_slow_tier_refills_filesystem_with_the_uncompressed_size:filesystem_store_emplace_file: nativelink_store::filesystem_store: No existing entry, so not duplicate temp_file="/tmp/.tmpll6PYY/temp/d2/0123456789abcdef000000000000000000010000000000000000000000000000-4096-1"
+2026-11-19T00:10:47.273810Z TRACE compressed_slow_tier_refills_filesystem_with_the_uncompressed_size:filesystem_store_emplace_file: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:10:47.273932Z TRACE compressed_slow_tier_refills_filesystem_with_the_uncompressed_size:filesystem_store_emplace_file: nativelink_store::filesystem_store: Finished emplace file key=Digest(DigestInfo("0123456789abcdef000000000000000000010000000000000123456789abcdef-4096"))
+2026-11-19T00:10:47.274073Z TRACE compressed_slow_tier_refills_filesystem_with_the_uncompressed_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:10:47.274511Z TRACE compressed_slow_tier_refills_filesystem_with_the_uncompressed_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:10:47.274732Z TRACE compressed_slow_tier_refills_filesystem_with_the_uncompressed_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:10:47.275355Z TRACE compressed_slow_tier_refills_filesystem_with_the_uncompressed_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:10:47.275490Z TRACE compressed_slow_tier_refills_filesystem_with_the_uncompressed_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:10:47.275833Z TRACE compressed_slow_tier_refills_filesystem_with_the_uncompressed_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:10:47.275981Z TRACE compressed_slow_tier_refills_filesystem_with_the_uncompressed_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:10:47.276032Z TRACE compressed_slow_tier_refills_filesystem_with_the_uncompressed_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:10:47.276102Z TRACE compressed_slow_tier_refills_filesystem_with_the_uncompressed_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:10:47.276202Z TRACE compressed_slow_tier_refills_filesystem_with_the_uncompressed_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:10:47.276247Z TRACE compressed_slow_tier_refills_filesystem_with_the_uncompressed_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:10:47.276279Z TRACE compressed_slow_tier_refills_filesystem_with_the_uncompressed_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:10:47.276321Z TRACE compressed_slow_tier_refills_filesystem_with_the_uncompressed_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:10:47.276377Z TRACE compressed_slow_tier_refills_filesystem_with_the_uncompressed_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:10:47.276426Z TRACE compressed_slow_tier_refills_filesystem_with_the_uncompressed_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:10:47.276460Z TRACE compressed_slow_tier_refills_filesystem_with_the_uncompressed_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:10:47.276500Z TRACE compressed_slow_tier_refills_filesystem_with_the_uncompressed_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:10:47.277244Z TRACE compressed_slow_tier_refills_filesystem_with_the_uncompressed_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:10:47.278255Z TRACE compressed_slow_tier_refills_filesystem_with_the_uncompressed_size: nativelink_store::filesystem_store: Dropping file to update_file temp_file=FileSlot { _permit: SemaphorePermit { sem: Semaphore { ll_sem: Semaphore { permits: 24575 } }, permits: 1 }, inner: tokio::fs::File { std: File { fd: 9, path: "/tmp/.tmpsZkkyS/temp/d2/0123456789abcdef000000000000000000010000000000000100000000000000-4-1", read: true, write: true } } }
+2026-11-19T00:10:47.278400Z TRACE compressed_slow_tier_refills_filesystem_with_the_uncompressed_size:filesystem_store_emplace_file: nativelink_store::filesystem_store: No existing entry, so not duplicate temp_file="/tmp/.tmpsZkkyS/temp/d2/0123456789abcdef000000000000000000010000000000000100000000000000-4-1"
+2026-11-19T00:10:47.278428Z TRACE compressed_slow_tier_refills_filesystem_with_the_uncompressed_size:filesystem_store_emplace_file: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:10:47.278571Z TRACE compressed_slow_tier_refills_filesystem_with_the_uncompressed_size:filesystem_store_emplace_file: nativelink_store::filesystem_store: Finished emplace file key=Digest(DigestInfo("0123456789abcdef000000000000000000010000000000000123456789abcdef-4"))
+2026-11-19T00:10:47.278715Z TRACE compressed_slow_tier_refills_filesystem_with_the_uncompressed_size: nativelink_util::fs: getting FS permit available_permits=24576
+ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 20 filtered out; finished in 0.01s
+
+exit=0
+Done. has() reports the footer payload size; the fast_slow fill succeeds;
+the matching-digest CAS refill still works.
+
+Script done on 2026-11-19 00:10:47+00:00 [COMMAND_EXIT_CODE="0"]

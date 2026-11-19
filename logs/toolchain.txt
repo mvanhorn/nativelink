@@ -1,0 +1,7 @@
+rustc 1.97.1 (8bab26f4f 2026-07-14)
+cargo 1.97.1 (c980f4866 2026-06-30)
+rustfmt 1.97.1 (stable; .rustfmt.toml unstable options not applied)
+vale version 3.12.0
+bazel: not installed
+pre-commit: not installed
+platform: Linux x86_64

@@ -1,0 +1,30 @@
+warning: /workspace/Cargo.toml: unused manifest key: workspace.cargo-features-manager
+   Compiling nativelink-store v1.8.6 (/workspace/nativelink-store)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 24.13s
+     Running tests/compression_store_test.rs (/tmp/nativelink-upstream-main/target/debug/deps/compression_store_test-43c20200e2029484)
+
+running 21 tests
+test check_footer_test ... ok
+test check_header_test ... ok
+test compressed_slow_tier_refills_filesystem_with_the_uncompressed_size ... ok
+test compressed_slow_tier_refills_when_digest_size_is_the_action_size ... ok
+test get_part_is_zero_digest ... ok
+test has_errors_when_the_frame_footer_cannot_be_read ... ok
+test has_mixed_digests_preserves_result_order ... ok
+test has_nonzero_digests_delegates_single_batch ... ok
+test has_preserves_missing_digests_and_stored_string_key_sizes ... ok
+test has_reports_the_size_the_digest_declares_not_the_compressed_one ... ok
+test has_reports_the_stored_uncompressed_size_when_the_digest_size_differs ... ok
+test has_zero_digests_skips_inner_store ... ok
+test incomplete_upload_does_not_publish_compressed_blob ... ok
+test partial_reads_test ... ok
+test rand_5mb_smoke_test ... ok
+test regression_test_range_start_not_greater_than_end ... ok
+test sanity_check_zero_bytes_test ... ok
+test simple_smoke_test ... ok
+test update_with_unknown_size_round_trips ... ok
+test update_zero_digest_rejects_nonempty_data ... ok
+test update_zero_digest_skips_inner_store ... ok
+
+test result: ok. 21 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.12s
+

@@ -1,0 +1,36 @@
+warning: /tmp/nativelink-upstream-main/Cargo.toml: unused manifest key: workspace.cargo-features-manager
+   Compiling nativelink-store v1.8.6 (/tmp/nativelink-upstream-main/nativelink-store)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 2.43s
+     Running tests/compression_store_test.rs (target/debug/deps/compression_store_test-43c20200e2029484)
+
+running 1 test
+test compressed_slow_tier_refills_when_digest_size_is_the_action_size ... 2026-11-19T00:03:31.698812Z TRACE compressed_slow_tier_refills_when_digest_size_is_the_action_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:03:31.699536Z TRACE compressed_slow_tier_refills_when_digest_size_is_the_action_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:03:31.700128Z TRACE compressed_slow_tier_refills_when_digest_size_is_the_action_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:03:31.700619Z TRACE compressed_slow_tier_refills_when_digest_size_is_the_action_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:03:31.701136Z TRACE compressed_slow_tier_refills_when_digest_size_is_the_action_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:03:31.701385Z TRACE compressed_slow_tier_refills_when_digest_size_is_the_action_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:03:31.701459Z TRACE compressed_slow_tier_refills_when_digest_size_is_the_action_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:03:31.701508Z TRACE compressed_slow_tier_refills_when_digest_size_is_the_action_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:03:31.701576Z TRACE compressed_slow_tier_refills_when_digest_size_is_the_action_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:03:31.701631Z TRACE compressed_slow_tier_refills_when_digest_size_is_the_action_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:03:31.701668Z TRACE compressed_slow_tier_refills_when_digest_size_is_the_action_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:03:31.701720Z TRACE compressed_slow_tier_refills_when_digest_size_is_the_action_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:03:31.701763Z TRACE compressed_slow_tier_refills_when_digest_size_is_the_action_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:03:31.701801Z TRACE compressed_slow_tier_refills_when_digest_size_is_the_action_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:03:31.701837Z TRACE compressed_slow_tier_refills_when_digest_size_is_the_action_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:03:31.701873Z TRACE compressed_slow_tier_refills_when_digest_size_is_the_action_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:03:31.702422Z TRACE compressed_slow_tier_refills_when_digest_size_is_the_action_size: nativelink_util::fs: getting FS permit available_permits=24576
+2026-11-19T00:03:31.702579Z DEBUG compressed_slow_tier_refills_when_digest_size_is_the_action_size: nativelink_store::filesystem_store: Spawned a filesystem_delete_file current_active_drop_spawns=1 file_path="/tmp/.tmpogTdxR/temp/d2/0123456789abcdef000000000000000000010000000000000000000000000000-167-1"
+2026-11-19T00:03:31.702636Z TRACE compressed_slow_tier_refills_when_digest_size_is_the_action_size:filesystem_delete_file: nativelink_util::fs: getting FS permit available_permits=24576
+Error: Error { code: DataLoss, messages: ["Expected 167 upload bytes, received 334", "Slow store ended before the cache fill was complete", "Failed to get_part in get_part_unchunked", "---", "Sender dropped before sending EOF", "In buf_channel::peek", "Failed to check if next chunk is EOF", "Failed to read stream to completion in get_part_unchunked"] }
+FAILED
+
+failures:
+
+failures:
+    compressed_slow_tier_refills_when_digest_size_is_the_action_size
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 20 filtered out; finished in 0.01s
+
+error: test failed, to rerun pass `-p nativelink-store --test compression_store_test`

@@ -1,0 +1,28 @@
+warning: /tmp/nativelink-upstream-main/Cargo.toml: unused manifest key: workspace.cargo-features-manager
+   Compiling nativelink-store v1.8.6 (/tmp/nativelink-upstream-main/nativelink-store)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 25.24s
+     Running tests/compression_store_test.rs (target/debug/deps/compression_store_test-43c20200e2029484)
+
+running 1 test
+test has_reports_the_stored_uncompressed_size_when_the_digest_size_differs ... 
+thread 'has_reports_the_stored_uncompressed_size_when_the_digest_size_differs' (12495) panicked at nativelink-store/tests/compression_store_test.rs:1065:5:
+assertion failed: `(left == right)`: has() must report the stored payload length, not the Action size in the digest
+
+[1mDiff[0m [31m< left[0m / [32mright >[0m :
+ Some(
+[31m<    [0m[1;48;5;52;31m167[0m[31m,[0m
+[32m>    [0m[1;48;5;22;32m334[0m[32m,[0m
+ )
+
+
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+FAILED
+
+failures:
+
+failures:
+    has_reports_the_stored_uncompressed_size_when_the_digest_size_differs
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 20 filtered out; finished in 0.00s
+
+error: test failed, to rerun pass `-p nativelink-store --test compression_store_test`

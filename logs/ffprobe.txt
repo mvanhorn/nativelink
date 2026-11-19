@@ -1,0 +1,20 @@
+=== out.mp4 ===
+Input #0, mov,mp4,m4a,3gp,3g2,mj2, from '/tmp/out-final.mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf60.16.100
+  Duration: 00:00:23.60, start: 0.000000, bitrate: 195 kb/s
+  Stream #0:0[0x1](und): Video: h264 (High) (avc1 / 0x31637661), yuv420p(progressive), 1920x1080, 192 kb/s, 30 fps, 30 tbr, 15360 tbn (default)
+    Metadata:
+      handler_name    : VideoHandler
+      vendor_id       : [0][0][0][0]
+      encoder         : Lavc60.31.102 libx264
+
+=== preview.gif ===
+Input #0, gif, from '/tmp/preview.gif':
+  Duration: 00:00:23.60, start: 0.000000, bitrate: 134 kb/s
+  Stream #0:0: Video: gif, bgra, 1280x720, 10 fps, 10 tbr, 100 tbn
+
+gif_bytes=396167
