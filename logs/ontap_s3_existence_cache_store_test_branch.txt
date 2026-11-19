@@ -1,0 +1,18 @@
+$ cargo test -p nativelink-store --test ontap_s3_existence_cache_store_test --profile=smol -- --test-threads=1
+# cwd=/workspace
+warning: /workspace/Cargo.toml: unused manifest key: workspace.cargo-features-manager
+    Finished `smol` profile [optimized] target(s) in 0.25s
+     Running tests/ontap_s3_existence_cache_store_test.rs (target/smol/deps/ontap_s3_existence_cache_store_test-2b73ffc5304e9fcb)
+
+running 6 tests
+test remove_drops_index_entry_without_deleting_durable_object ... ok
+test test_cache_population ... ok
+test test_cache_sync_multiple_objects ... ok
+test test_empty_bucket_handling ... ok
+test test_get_part_not_in_cache ... ok
+test test_zero_digest_handling ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.45s
+
+exit 0
+

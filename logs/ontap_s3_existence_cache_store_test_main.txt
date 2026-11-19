@@ -1,0 +1,41 @@
+$ CARGO_TARGET_DIR=/tmp/nl-main-target cargo test -p nativelink-store --test ontap_s3_existence_cache_store_test --profile=smol -- --test-threads=1
+# cwd=/tmp/nl-main
+warning: /tmp/nl-main/Cargo.toml: unused manifest key: workspace.cargo-features-manager
+    Finished `smol` profile [optimized] target(s) in 0.24s
+     Running tests/ontap_s3_existence_cache_store_test.rs (/tmp/nl-main-target/smol/deps/ontap_s3_existence_cache_store_test-2b73ffc5304e9fcb)
+
+running 6 tests
+test remove_drops_index_entry_without_deleting_durable_object ... FAILED
+test test_cache_population ... ok
+test test_cache_sync_multiple_objects ... ok
+test test_empty_bucket_handling ... ok
+test test_get_part_not_in_cache ... ok
+test test_zero_digest_handling ... ok
+
+failures:
+
+---- remove_drops_index_entry_without_deleting_durable_object stdout ----
+2026-11-19T00:15:46.528101Z DEBUG remove_drops_index_entry_without_deleting_durable_object: aws_sdk_s3::endpoint_lib: loading default partitions
+2026-11-19T00:15:46.528357Z TRACE remove_drops_index_entry_without_deleting_durable_object: aws_smithy_runtime_api::client::runtime_plugin: applying client runtime plugins
+
+thread 'remove_drops_index_entry_without_deleting_durable_object' (27557) panicked at nativelink-store/tests/ontap_s3_existence_cache_store_test.rs:589:5:
+assertion failed: `(left == right)`: index miss is treated as missing until the next sync
+
+[1mDiff[0m [31m< left[0m / [32mright >[0m :
+[31m<Some([0m
+[31m<    3,[0m
+[31m<)[0m
+[32m>None[0m
+
+
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    remove_drops_index_entry_without_deleting_durable_object
+
+test result: FAILED. 5 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.45s
+
+error: test failed, to rerun pass `-p nativelink-store --test ontap_s3_existence_cache_store_test`
+exit 101
+

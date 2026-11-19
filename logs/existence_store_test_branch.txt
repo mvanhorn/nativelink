@@ -1,0 +1,27 @@
+$ cargo test -p nativelink-store --test existence_store_test --profile=smol -- --test-threads=1
+# cwd=/workspace feat/existence-cache-invalidate
+warning: /workspace/Cargo.toml: unused manifest key: workspace.cargo-features-manager
+    Finished `smol` profile [optimized] target(s) in 0.27s
+     Running tests/existence_store_test.rs (target/smol/deps/existence_store_test-ee7301313d1b4cb5)
+
+running 15 tests
+test a_read_that_finds_nothing_stops_the_cache_vouching ... ok
+test an_aged_positive_asks_the_inner_store_again ... ok
+test an_upload_for_a_blob_the_cache_believes_present_still_lands ... ok
+test copes_with_dropped_items ... ok
+test ensure_has_requests_do_let_evictions_happen ... ok
+test gated_has_during_remove_does_not_restore_stale_positive ... ok
+test get_part_caches_if_exact_size_set ... ok
+test inner_remove_callback_drops_presence ... ok
+test remove_backend_error_drops_presence ... ok
+test remove_cached_drops_fast_copy_and_keeps_durable ... ok
+test remove_evicts_presence_and_the_next_has_reports_missing ... ok
+test remove_noop_backend_drops_presence_and_keeps_durable_data ... ok
+test simple_exist_cache_test ... ok
+test truncated_cache_entry_is_evicted_and_refills_from_durable ... ok
+test update_flags_existence_cache_test ... ok
+
+test result: ok. 15 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+exit 0
+

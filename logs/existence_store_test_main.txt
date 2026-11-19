@@ -1,0 +1,104 @@
+$ CARGO_TARGET_DIR=/tmp/nl-main-target cargo test -p nativelink-store --test existence_store_test --profile=smol -- --test-threads=1
+# cwd=/tmp/nl-main (untouched upstream/main + new tests only)
+warning: /tmp/nl-main/Cargo.toml: unused manifest key: workspace.cargo-features-manager
+    Finished `smol` profile [optimized] target(s) in 0.25s
+     Running tests/existence_store_test.rs (/tmp/nl-main-target/smol/deps/existence_store_test-ee7301313d1b4cb5)
+
+running 15 tests
+test a_read_that_finds_nothing_stops_the_cache_vouching ... ok
+test an_aged_positive_asks_the_inner_store_again ... ok
+test an_upload_for_a_blob_the_cache_believes_present_still_lands ... ok
+test copes_with_dropped_items ... ok
+test ensure_has_requests_do_let_evictions_happen ... ok
+test gated_has_during_remove_does_not_restore_stale_positive ... FAILED
+test get_part_caches_if_exact_size_set ... ok
+test inner_remove_callback_drops_presence ... ok
+test remove_backend_error_drops_presence ... FAILED
+test remove_cached_drops_fast_copy_and_keeps_durable ... FAILED
+test remove_evicts_presence_and_the_next_has_reports_missing ... FAILED
+test remove_noop_backend_drops_presence_and_keeps_durable_data ... FAILED
+test simple_exist_cache_test ... ok
+test truncated_cache_entry_is_evicted_and_refills_from_durable ... FAILED
+test update_flags_existence_cache_test ... ok
+
+failures:
+
+---- gated_has_during_remove_does_not_restore_stale_positive stdout ----
+2026-11-19T00:15:46.250915Z TRACE gated_has_during_remove_does_not_restore_stale_positive: nativelink_store::existence_cache_store: Inserting into inner cache digest=DigestInfo("0123456789abcdef000000000000000000010000000000000123456789abcdef-3")
+2026-11-19T00:15:46.250925Z TRACE gated_has_during_remove_does_not_restore_stale_positive: nativelink_store::existence_cache_store: Inserting into existence cache digest=DigestInfo("0123456789abcdef000000000000000000010000000000000123456789abcdef-3")
+2026-11-19T00:15:46.250930Z DEBUG gated_has_during_remove_does_not_restore_stale_positive: nativelink_util::evicting_map: Evicting (direct remove) key=DigestInfo("0123456789abcdef000000000000000000010000000000000123456789abcdef-3")
+
+thread 'gated_has_during_remove_does_not_restore_stale_positive' (27539) panicked at nativelink-store/tests/existence_store_test.rs:810:5:
+assertion failed: store.as_store_driver_pin().remove(digest.into()).await?
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+---- remove_backend_error_drops_presence stdout ----
+2026-11-19T00:15:46.251274Z TRACE remove_backend_error_drops_presence: nativelink_store::existence_cache_store: Inserting into inner cache digest=DigestInfo("0123456789abcdef000000000000000000010000000000000123456789abcdef-3")
+2026-11-19T00:15:46.251284Z TRACE remove_backend_error_drops_presence: nativelink_store::existence_cache_store: Inserting into existence cache digest=DigestInfo("0123456789abcdef000000000000000000010000000000000123456789abcdef-3")
+
+thread 'remove_backend_error_drops_presence' (27542) panicked at nativelink-store/tests/existence_store_test.rs:655:10:
+called `Result::unwrap_err()` on an `Ok` value: false
+
+---- remove_cached_drops_fast_copy_and_keeps_durable stdout ----
+2026-11-19T00:15:46.251395Z TRACE remove_cached_drops_fast_copy_and_keeps_durable: nativelink_store::existence_cache_store: Inserting into inner cache digest=DigestInfo("0123456789abcdef000000000000000000010000000000000123456789abcdef-3")
+2026-11-19T00:15:46.251410Z TRACE remove_cached_drops_fast_copy_and_keeps_durable: nativelink_store::fast_slow_store: FastSlowStore::update: starting dual-store upload key=Digest(DigestInfo("0123456789abcdef000000000000000000010000000000000123456789abcdef-3"))
+2026-11-19T00:15:46.251419Z DEBUG remove_cached_drops_fast_copy_and_keeps_durable: nativelink_store::fast_slow_store: FastSlowStore::update: data_stream sent EOF to both stores total_bytes=3
+2026-11-19T00:15:46.251433Z TRACE remove_cached_drops_fast_copy_and_keeps_durable: nativelink_store::fast_slow_store: FastSlowStore::update: completed successfully key=Digest(DigestInfo("0123456789abcdef000000000000000000010000000000000123456789abcdef-3")) elapsed_ms=0
+2026-11-19T00:15:46.251438Z TRACE remove_cached_drops_fast_copy_and_keeps_durable: nativelink_store::existence_cache_store: Inserting into existence cache digest=DigestInfo("0123456789abcdef000000000000000000010000000000000123456789abcdef-3")
+
+thread 'remove_cached_drops_fast_copy_and_keeps_durable' (27543) panicked at nativelink-store/tests/existence_store_test.rs:770:5:
+assertion failed: store.as_store_driver_pin().remove_cached(digest.into()).await?
+
+---- remove_evicts_presence_and_the_next_has_reports_missing stdout ----
+2026-11-19T00:15:46.251532Z TRACE remove_evicts_presence_and_the_next_has_reports_missing: nativelink_store::existence_cache_store: Inserting into inner cache digest=DigestInfo("0123456789abcdef000000000000000000010000000000000123456789abcdef-3")
+2026-11-19T00:15:46.251542Z TRACE remove_evicts_presence_and_the_next_has_reports_missing: nativelink_store::existence_cache_store: Inserting into existence cache digest=DigestInfo("0123456789abcdef000000000000000000010000000000000123456789abcdef-3")
+
+thread 'remove_evicts_presence_and_the_next_has_reports_missing' (27544) panicked at nativelink-store/tests/existence_store_test.rs:604:5:
+assertion failed: store.as_store_driver_pin().remove(digest.into()).await?
+
+---- remove_noop_backend_drops_presence_and_keeps_durable_data stdout ----
+2026-11-19T00:15:46.251626Z TRACE remove_noop_backend_drops_presence_and_keeps_durable_data: nativelink_store::existence_cache_store: Inserting into inner cache digest=DigestInfo("0123456789abcdef000000000000000000010000000000000123456789abcdef-3")
+2026-11-19T00:15:46.251636Z TRACE remove_noop_backend_drops_presence_and_keeps_durable_data: nativelink_store::existence_cache_store: Inserting into existence cache digest=DigestInfo("0123456789abcdef000000000000000000010000000000000123456789abcdef-3")
+
+thread 'remove_noop_backend_drops_presence_and_keeps_durable_data' (27545) panicked at nativelink-store/tests/existence_store_test.rs:627:5:
+assertion failed: !store.exists_in_cache(&digest).await
+
+---- truncated_cache_entry_is_evicted_and_refills_from_durable stdout ----
+2026-11-19T00:15:46.251804Z TRACE truncated_cache_entry_is_evicted_and_refills_from_durable: nativelink_store::existence_cache_store: Inserting into inner cache digest=DigestInfo("0123456789abcdef000000000000000000010000000000000123456789abcdef-3")
+2026-11-19T00:15:46.251811Z TRACE truncated_cache_entry_is_evicted_and_refills_from_durable: nativelink_store::fast_slow_store: FastSlowStore::update: starting dual-store upload key=Digest(DigestInfo("0123456789abcdef000000000000000000010000000000000123456789abcdef-3"))
+2026-11-19T00:15:46.251825Z DEBUG truncated_cache_entry_is_evicted_and_refills_from_durable: nativelink_store::fast_slow_store: FastSlowStore::update: data_stream sent EOF to both stores total_bytes=3
+2026-11-19T00:15:46.251841Z TRACE truncated_cache_entry_is_evicted_and_refills_from_durable: nativelink_store::fast_slow_store: FastSlowStore::update: completed successfully key=Digest(DigestInfo("0123456789abcdef000000000000000000010000000000000123456789abcdef-3")) elapsed_ms=0
+2026-11-19T00:15:46.251843Z TRACE truncated_cache_entry_is_evicted_and_refills_from_durable: nativelink_store::existence_cache_store: Inserting into existence cache digest=DigestInfo("0123456789abcdef000000000000000000010000000000000123456789abcdef-3")
+2026-11-19T00:15:46.251858Z DEBUG truncated_cache_entry_is_evicted_and_refills_from_durable: nativelink_util::evicting_map: Evicting old item key=StoreKeyBorrow(Digest(DigestInfo("0123456789abcdef000000000000000000010000000000000123456789abcdef-3")))
+2026-11-19T00:15:46.251865Z DEBUG truncated_cache_entry_is_evicted_and_refills_from_durable: nativelink_store::existence_cache_store: Removing item from cache due to callback store_key=Digest(DigestInfo("0123456789abcdef000000000000000000010000000000000123456789abcdef-3"))
+2026-11-19T00:15:46.251869Z DEBUG truncated_cache_entry_is_evicted_and_refills_from_durable: nativelink_util::evicting_map: Evicting (direct remove) key=DigestInfo("0123456789abcdef000000000000000000010000000000000123456789abcdef-3")
+2026-11-19T00:15:46.251913Z DEBUG truncated_cache_entry_is_evicted_and_refills_from_durable: nativelink_util::evicting_map: Evicting old item key=DigestInfo("0123456789abcdef000000000000000000010000000000000123456789abcdef-3")
+2026-11-19T00:15:46.251919Z  WARN truncated_cache_entry_is_evicted_and_refills_from_durable: nativelink_store::verify_store: Dropped a copy that failed size verification key=Digest(DigestInfo("0123456789abcdef000000000000000000010000000000000123456789abcdef-3")) removed=false
+
+thread 'truncated_cache_entry_is_evicted_and_refills_from_durable' (27547) panicked at nativelink-store/tests/existence_store_test.rs:731:5:
+assertion failed: `(left == right)`: the truncated copy was dropped and the fast tier refilled from durable
+
+[1mDiff[0m [31m< left[0m / [32mright >[0m :
+[31m<b"12"[0m
+[32m>[[0m
+[32m>    49,[0m
+[32m>    50,[0m
+[32m>    51,[0m
+[32m>][0m
+
+
+
+
+failures:
+    gated_has_during_remove_does_not_restore_stale_positive
+    remove_backend_error_drops_presence
+    remove_cached_drops_fast_copy_and_keeps_durable
+    remove_evicts_presence_and_the_next_has_reports_missing
+    remove_noop_backend_drops_presence_and_keeps_durable_data
+    truncated_cache_entry_is_evicted_and_refills_from_durable
+
+test result: FAILED. 9 passed; 6 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+error: test failed, to rerun pass `-p nativelink-store --test existence_store_test`
+exit 101
+

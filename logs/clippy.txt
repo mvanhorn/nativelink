@@ -1,0 +1,5 @@
+$ cargo clippy -p nativelink-store --profile=smol --tests -- --deny warnings
+warning: /workspace/Cargo.toml: unused manifest key: workspace.cargo-features-manager
+    Finished `smol` profile [optimized] target(s) in 0.29s
+exit 0
+
